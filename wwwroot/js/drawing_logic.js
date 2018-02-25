@@ -20,11 +20,6 @@ function showTooltip(innerHtml, posLeft, posRight) {
 }
 
 
-// longitude (ostwest)/latitude(nord sued)
-let projection = d3.geoMercator()
-    .rotate([0, 0, 0])
-    .fitExtent([[0, 0], [width, height]], boundingBoxMap);
-
 
 
 function manualZoom(newZoomLevel) {
@@ -37,70 +32,10 @@ function manualZoom(newZoomLevel) {
 }
 
 function zoomed() {
-    console.log('zoom') ; 
-    // extracting d3.event.transoform.k
-    // ... this is probably rather dangerours
-    //zoomLevel = d3.event.transform.k;
     d3.select('.drawing-area').attr('transform', d3.event.transform);
-    // debugger;
-    //updatePeaks();
-
-    //d3.selectAll('.aerialway').style('stroke-width', 2.0 / zoomLevel);
-
-    // update slider only if the event if necessary
-    //if (updateSliderOnZoom === false) {
-    //  zoomSlider.setValueNoCallbacks(zoomLevel);
-    //}
-    //updateSliderOnZoom = false;
-
-    // update scale
-    //d3.select('.scale-drawing-area text')
-    //    .text(scaleText);
 }
 
-let path = d3.geoPath(projection);
 
-let svg = d3.select('#map-container')
-    .append('svg')
-    .attr('width', width + margin)
-    .attr('height', height + margin)
-    .attr('class', 'map-area')
-;
-
-d3Zoom = d3.zoom()
-    .scaleExtent([1, 8])
-    .on('zoom', zoomed);
-
-d3.selectAll('.map-area')
-    .append('g')
-    .attr('class', 'drawing-area')
-    .call(d3Zoom)
-;
-
-
-d3.selectAll('.map-area')
-    .append('g')
-    .attr('class', 'scale-drawing-area')
-    .call(d3Zoom)
-    .attr('transform', function(d) {
-        return 'translate(10,600)';
-    })
-;
-
-let mapCommunities = d3.selectAll('.drawing-area')
-    .append('g')
-    .attr('class', 'map-cont');
-
-
-let mapVlbg = d3.selectAll('.drawing-area')
-    .append('g')
-    .attr('class', 'map-vlbg');
-
-
-
-let mapEle = d3.selectAll('.drawing-area')
-    .append('g')
-    .attr('class', 'map-ele');
 
 function drawCommunityBorders(geoDataRaw) {
     communityBorderData = geoDataRaw.map(function(d, i) {
@@ -215,11 +150,6 @@ function drawEle(e, d) {
         .attr('class', 'ele');
 }
 
-
-tooltipDiv = d3.select('#app-body')
-    .append('div')
-    .attr('class', 'tooltip')
-;
 
 function drawVlbg(e, d) {
     if (e !== null) {
