@@ -8,7 +8,6 @@ import json
 import argparse
 
 
-filename_osm= ""
 
 def parseNode(ele):
     node_id = ele.get("id")
@@ -47,18 +46,16 @@ def parseWay(ele, nodes):
     return way_id, { 'tags': way_tags, 'nodes' : way_nodes}
 
 
-def main():
+def parse_file(filename):
 
 
     nodes = dict()
-
-
 
     count = 0
 
 
     # first run: parse nodes
-    xml_it = ET.iterparse(filename_osm,  events=('start', 'end'))
+    xml_it = ET.iterparse(filename,  events=('start', 'end'))
     for child in xml_it:
 
         if child[0] == 'start' and child[1].tag == 'node' :
@@ -74,7 +71,7 @@ def main():
 
 
     # 2nd run: parse ways
-    xml_it = ET.iterparse(filename_osm,  events=('start', 'end'))
+    xml_it = ET.iterparse(filename,  events=('start', 'end'))
 
     ways = dict()
     count =0 
@@ -95,18 +92,28 @@ def main():
 
 
 
-    with open(filename_osm + '.json', 'w') as f:
+    with open(filename + '.json', 'w') as f:
         json.dump(ways, f)
 
+
+def main():
+    for fn in input_files:
+        parse_file(fn)
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('file',  help='file')
 
 
-args = parser.parse_args()
-print( args.file)
+import sys
+print(sys.argv)
+input_files = sys.argv[1:]
 
-filename_osm = args.file
+
+
+#args = parser.parse_args()
+#print( args.file)
+#filename_osm = args.file
+#
 
 main()
 
