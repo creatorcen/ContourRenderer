@@ -101,7 +101,31 @@ function drawCommunityBorders(geoDataRaw) {
         }) // .on(click)
     ;
 }
+var cnt=0;
+function drawGeoJsonElevation(e,d) {
+    if (e !== null) {
+        console.error(e);
+        return;
+    }
+    console.log("elevation data loaded")
 
+    eleData = d.features;
+
+    dataproc = eleData.slice(0,10000)
+
+    let map = d3.selectAll('.map-vlbg')
+        .selectAll('path')
+        .data(eleData, function(d) {cnt+=1;return cnt;} )
+        .enter()
+        .append('path')
+        .attr('d', function(d) {
+            return path(d.geometry);
+        })
+        .attr('class', function(d) { return "id" + d.properties.ID + " ele" + d.properties.height;})
+        
+
+
+}
 
 function drawEle(e, d) {
     if (e !== null) {
@@ -121,22 +145,23 @@ function drawEle(e, d) {
         a.push(d[i]);
 
         cnt += 1
-        if ( cnt > 10 ) {
-            // break;
-        }
+        
     }
 
-    dataproc = a.map(function(way) {
+    dataproc = a.map(function(way,i) {
 
         coordinates = way.nodes.map(function(n) {return [n.lon, n.lat] ;} );
 
         return {
             'type': 'LineString',
-            'coordinates': coordinates
+            'coordinates': coordinates,
+            'ele' : way.tags.ele,
+            'id' : i
         };
 
     });
 
+    //dataproc = dataproc.filter(function(d) {return d.ele % 250 === 0;})
 
 
     let map = d3.selectAll('.map-vlbg')
@@ -147,7 +172,8 @@ function drawEle(e, d) {
         .attr('d', function(d) {
             return path(d);
         })
-        .attr('class', 'ele');
+        .attr('class', function(d) { return "id" + d.id + " ele" + d.ele;})
+        
 }
 
 

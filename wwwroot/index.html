@@ -21,8 +21,8 @@ lon9.98_10.00lat47.25_47.28_view3.osm
 <script>
 
 let margin = 5;
-let width = 650 - margin;
-let height = 650 - margin;
+let width = 1650 - margin;
+let height = 1650 - margin;
 
 
 let vlbgData;
@@ -73,9 +73,9 @@ d3.selectAll('.map-area')
     })
 ;
 
-let mapCommunities = d3.selectAll('.drawing-area')
-    .append('g')
-    .attr('class', 'map-cont');
+
+
+
 
 
 let mapVlbg = d3.selectAll('.drawing-area')
@@ -83,14 +83,23 @@ let mapVlbg = d3.selectAll('.drawing-area')
     .attr('class', 'map-vlbg');
 
 
+let mapCommunities = d3.selectAll('.drawing-area')
+    .append('g')
+    .attr('class', 'map-cont');
 
 let mapEle = d3.selectAll('.drawing-area')
     .append('g')
     .attr('class', 'map-ele');
 
-d3.json('/data/output.json', drawEle);
+
+//d3.json('/data/output.json', drawEle);
+d3.json('/data/contour/N47E010_1000.json', drawGeoJsonElevation);
+d3.json('/data/contour/N47E009_1000.json', drawGeoJsonElevation);
+d3.json('/data/contour/N46E009_1000.json', drawGeoJsonElevation);
+d3.json('/data/contour/N46E010_1000.json', drawGeoJsonElevation);
+
 d3.json('/data/border_vlbg.json', drawVlbg);
-d3.json('/data/border_filtered.json', drawCommunityBorders);
+//d3.json('/data/border_filtered.json', drawCommunityBorders);
 
 </script>
   </body>

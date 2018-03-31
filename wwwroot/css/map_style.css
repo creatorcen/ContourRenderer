@@ -1,8 +1,9 @@
 
 path.vlbg
 {
-  stroke: red;
-  stroke-width: 3;
+  stroke: rgb(210,29,29);
+  /*stroke: white; */
+  stroke-width: 4px;
   fill: none;
 }
 
@@ -10,20 +11,64 @@ path.vlbg
 path.community 
 {
   /*fill: #e3e1d7; */
-  fill:white;
-  stroke: red;
-  stroke-width: 1;
+  /*stroke: rgb(210,29,29);*/
+  /*stroke: white;*/
+  stroke-width: 2px;
   opacity: 1;
 }
 
 
 
-path.ele
+path
 {
-  stroke: black;
-  stroke-width: 1;
+  stroke: gray;
+  stroke-width: 1px;
   fill: none;
 }
+
+  /*
+path.ele500
+{
+  stroke: blue;
+  stroke-width: 1px;
+
+}
+
+
+path.ele1000
+{
+  stroke: green;
+  stroke-width: 1px;
+  
+}
+
+path.ele1500
+{
+  stroke: cyan;
+  stroke-width: 2px;
+
+}
+
+path.ele2000
+{
+  stroke: orange;
+  stroke-width: 2px;
+}
+
+path.ele2500
+{
+  stroke: pink;
+  stroke-width: 2px;
+}
+
+path.ele3000
+{
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+   */
+
 
 div.tooltip {
     position: absolute;

@@ -12,8 +12,8 @@ OUTFILENAME="output.json"
 mkdir -p data_tmp
 pushd data_tmp
 
-echo "phyghtmap -a $lon_min:$lat_min:$lon_max:$lat_max --source=view3 -s $res  5N47E009.hgt N47E010.hgt"
-phyghtmap -a "$lon_min:$lat_min:$lon_max:$lat_max" --source=view3 -s $res  5N47E009.hgt N47E010.hgt
+echo "phyghtmap -a $lon_min:$lat_min:$lon_max:$lat_max --source=view1 -s $res  5N47E009.hgt N47E010.hgt"
+phyghtmap -a "$lon_min:$lat_min:$lon_max:$lat_max" --source=view1 --max-nodes-per-tile=0 --max-nodes-per-way=0 -s $res  5N47E009.hgt N47E010.hgt
 
 
 python ../parse_contour.py *.osm
