@@ -1,0 +1,139 @@
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="/js/d3.js"></script>
+    <script src="/js/boundingBox.js"></script>
+    <script src="/js/drawing_logic.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="/css/map_style.css">
+
+    <style>
+    </style>
+
+  </head>
+  <body>
+
+      <div id="map-container"></div>
+
+lon9.98_10.00lat47.25_47.28_view3.osm
+<div id="app-body"> </div>
+<script>
+
+let margin = 5;
+let width = 1650 - margin;
+let height = 1650 - margin;
+
+
+let vlbgData;
+let eleData;
+let selectedCommunity;
+let tooltipDiv;
+let zoomLevel =1 ;
+
+
+// longitude (ostwest)/latitude(nord sued)
+let projection = d3.geoMercator()
+    .rotate([0, 0, 0])
+    .fitExtent([[0, 0], [width, height]], boundingBoxMap);
+
+let path = d3.geoPath(projection);
+
+
+
+let svg = d3.select('#map-container')
+    .append('svg')
+    .attr('width', width + margin)
+    .attr('height', height + margin)
+    .attr('class', 'map-area')
+;
+
+
+d3Zoom = d3.zoom()
+    .scaleExtent([1, 8])
+    .on('zoom', zoomed);
+
+
+
+
+
+d3.selectAll('.map-area')
+    .append('g')
+    .attr('class', 'drawing-area')
+    .call(d3Zoom)
+;
+
+var tiles = [
+[9,46 + 1],
+[9,47 + 1],
+[10,46 + 1],
+[10,47 + 1]
+] 
+
+function tileSize( d) {
+    var pt1 = projection(d);
+    var pt2 = projection( [ d[0] + 1, d[1] - 1  ] );
+
+    return [ Math.round( Math.abs( pt1[0] - pt2[0] )), Math.round(Math.abs( pt1[1] - pt2[1] ) )];
+}
+
+  //svg.append("g")
+  //d3.selectAll('.map-area')
+  d3.selectAll('.drawing-area')
+        .append("g")
+        .attr('class', 'tiles-canvas')
+      .selectAll("image")
+      .data(tiles)
+      .enter().append("image")
+      .attr("xlink:href", function(d) { return "/data/tiles/slopeshade/N" + String(( d[1]) -1  ).padStart(2,0) + "E" + String(d[0]).padStart(3,0) + ".png"; })
+      .attr("width",  function(d) {return tileSize(d)[0] + "px" ; } )
+      .attr("height", function(d) {return tileSize(d)[1] + "px" ; } )
+      .attr("x", function(d) { return projection(d)[0]; })
+      .attr("y", function(d) { return projection(d)[1] })
+      .attr("preserveAspectRatio", "none")
+      ;
+
+
+
+
+tooltipDiv = d3.select('#app-body')
+    .append('div')
+    .attr('class', 'tooltip')
+;
+
+d3.selectAll('.map-area')
+    .append('g')
+    .attr('class', 'scale-drawing-area')
+    .call(d3Zoom)
+    .attr('transform', function(d) {
+        return 'translate(10,600)';
+    })
+;
+
+
+
+
+
+let mapVlbg = d3.selectAll('.drawing-area')
+    .append('g')
+    .attr('class', 'map-vlbg');
+
+
+let mapCommunities = d3.selectAll('.drawing-area')
+    .append('g')
+    .attr('class', 'map-cont');
+
+let mapEle = d3.selectAll('.drawing-area')
+    .append('g')
+    .attr('class', 'map-ele');
+
+d3.json('/data/border_vlbg.json', drawVlbg);
+//d3.json('/data/border_filtered.json', drawCommunityBorders);
+
+
+    </script>
+  </body>
+
+
+
+</html>

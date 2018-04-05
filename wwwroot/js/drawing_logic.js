@@ -111,8 +111,6 @@ function drawGeoJsonElevation(e,d) {
 
     eleData = d.features;
 
-    dataproc = eleData.slice(0,10000)
-
     let map = d3.selectAll('.map-vlbg')
         .selectAll('path')
         .data(eleData, function(d) {cnt+=1;return cnt;} )

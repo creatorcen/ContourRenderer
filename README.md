@@ -18,19 +18,18 @@ start http server with root in wwwroot, e.g.
 
 ## Overview
 
-The script `create_data.sh` performs the following actions:
+The following scripts can be used to extract information form hgt files (the are using gdal commands)
+They are only usefull for extracting data of the files `N46E009.hgt`, `N46E010.hgt`, `N47E009.hgt`, `N47E010.hgt` (border region of Switzerland, Germany and Austria)
 
-- calls phyghtmap (needs to be installed)
-- - downloads the elevation model data from viewfinderpanoramas
-- - converts the data to `osm` fileformat
-- converts the osm files to json format
-- concats the json files
-- moves the data to `wwwroot/data`
+- create_contour.sh: extracts contour lines and stores them as geoJSON (needs stepsize as parameter)
+- create_hillshading.sh
+- create_reliefs.sh
+- create_slope.sh
 
 
 ## Requirements: 
 
-- phyghtmap
+- gdal
 
 ## Links:
 

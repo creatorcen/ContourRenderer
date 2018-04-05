@@ -20,7 +20,7 @@ def parseNode(ele):
     return node_id, node_data
 
 
-def parseWay(ele, nodes):
+def parseWay(ele, nodes ):
 
 
     way_id = ele[1].get("id")
@@ -36,12 +36,14 @@ def parseWay(ele, nodes):
 
         elif child.tag == 'tag':
             k = child.get('k')
-            v = child.get('k')
+            v = child.get('v')
 
             way_tags[k] = v
 
         else:
             asdf
+
+
 
     return way_id, { 'tags': way_tags, 'nodes' : way_nodes}
 
@@ -55,7 +57,7 @@ def parse_file(filename):
 
 
     # first run: parse nodes
-    xml_it = ET.iterparse(filename,  events=('start', 'end'))
+    xml_it = ET.iterparse(filename,  events=('start', ))
     for child in xml_it:
 
         if child[0] == 'start' and child[1].tag == 'node' :
@@ -65,7 +67,9 @@ def parse_file(filename):
             node_id, node_data = parseNode(ele)
             nodes[node_id] = node_data
 
-
+        count+=1
+        if count % 10000 == 0:
+            logging.info('parsing node %i', count)
 
 
 
@@ -77,28 +81,34 @@ def parse_file(filename):
     count =0 
     for child in xml_it:
 
-        if child[0] == 'start' and child[1].tag == 'way' :
+        if child[0] == 'end' and child[1].tag == 'way' :
+            
 
-
-            way_id, way_data = parseWay(child, nodes)
+            way_id, way_data  = parseWay(child, nodes)
             ways[way_id] = way_data
 
 
 
 
+
         count+=1
-        if count % 100 == 0:
-            logging.info('parsing node %i', count)
+        if count % 10000 == 0:
+            logging.info('parsing way %i', count)
+
 
 
 
     with open(filename + '.json', 'w') as f:
-        json.dump(ways, f)
+        json.dump(ways, f, indent=4 )
 
 
 def main():
+
+    logging.basicConfig(level=logging.DEBUG)
+
     for fn in input_files:
         parse_file(fn)
+
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('file',  help='file')
